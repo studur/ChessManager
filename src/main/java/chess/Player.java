@@ -4,11 +4,14 @@ import java.util.NavigableMap;
 import java.util.TreeMap;
 
 /**
- * This class is responsible for...
+ * This class is responsible for representing a chess player.
  */
 public class Player {
 
-   public static NavigableMap<Integer, Float> map;
+   /**
+    * This map is used to fetch the probability value based on the rating difference between two chess players.
+    */
+   private final static NavigableMap<Integer, Float> map;
 
    static {
       map = new TreeMap<Integer, Float>();
@@ -66,43 +69,32 @@ public class Player {
    }
 
 
-   private String prenom;
+   public String prenom;
 
-   private String nom;
+   public String nom;
 
-   private float rating;
+   public String fullName;
+
+   public float rating;
 
    public Player(String prenom, String nom, float rating) {
       this.nom = nom;
       this.prenom = prenom;
+      this.fullName = prenom + " " + nom;
       this.rating = rating;
    }
 
-   public String getNom() {
-      return nom;
-   }
-
-   public float getRating() {
-      return rating;
-   }
-
-   public void setRating(float rating) {
-      this.rating = rating;
-   }
-
-   public String getPrenom() {
-
-      return prenom;
-   }
-
-   public String getFullName() {
-
-      return this.prenom+" "+this.nom;
-   }
-
+   /**
+    * This method is used to calculate a rating adjustment (delta) based on the result from a game
+    * between two chess players.
+    *
+    * @param opponent     Player instance.
+    * @param actualResult Result : 1F win, 0F loss, 0.5F tie
+    * @return The rating variation.
+    */
    public float getDeltaFromGame(Player opponent, float actualResult) {
 
-      Integer diff = Math.round(this.rating - opponent.getRating());
+      Integer diff = Math.round(this.rating - opponent.rating);
       float expectedResult = 0;
 
       // To do a lookup for some value in 'key'

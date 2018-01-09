@@ -6,14 +6,16 @@ import java.util.List;
 
 
 /**
- * This class is responsible for...
+ * This class is responsible for representing a chess tournament composed of a list of Player and Game.
  */
 public class Tournament {
 
 
    private List<Player> players = new ArrayList<>();
 
-   /** Table for each player that shows Wins-Losses-Ties */
+   /**
+    * Table for each player that shows Wins-Losses-Ties
+    */
    private int[][] winningReport;
 
    private float[][] resultMatrix;
@@ -51,18 +53,18 @@ public class Tournament {
 
    public void computeNewRatings() {
       for (Player player : players) {
-         float newRating = player.getRating();
+         float newRating = player.rating;
          for (int i = 0; i < players.size(); i++) {
             newRating += resultMatrix[players.indexOf(player)][i];
          }
-         player.setRating(newRating);
+         player.rating = newRating;
       }
    }
 
    public void printNewRatings() {
       for (Player player : players) {
 
-         System.out.println(player.getFullName() + " : " + player.getRating());
+         System.out.println(player.fullName + " : " + player.rating);
       }
    }
 
@@ -80,12 +82,12 @@ public class Tournament {
       System.out.println("* Tournament report *");
       System.out.println("*********************");
       for (int i = 0; i < players.size(); i++) {
-         System.out.print(players.get(i).getFullName()+" : ");
+         System.out.print(players.get(i).fullName + " : ");
 
-         System.out.print( winningReport[i][0]+ " wins ");
-         System.out.print( winningReport[i][1]+ " losses ");
-         System.out.print( winningReport[i][2]+ " ties ");
-         System.out.print("New rating is "+new DecimalFormat("##").format(players.get(i).getRating()));
+         System.out.print(winningReport[i][0] + " wins ");
+         System.out.print(winningReport[i][1] + " losses ");
+         System.out.print(winningReport[i][2] + " ties ");
+         System.out.print("New rating is " + new DecimalFormat("##").format(players.get(i).rating));
 
          System.out.println();
       }

@@ -49,7 +49,6 @@ public class ChessManager {
       Game game9 = new Game(player6, player4, 0.5F);
 
 
-
       tournoi.addResult(game1);
       tournoi.addResult(game2);
       tournoi.addResult(game3);
@@ -62,7 +61,6 @@ public class ChessManager {
 
       tournoi.computeNewRatings();
       tournoi.printTournamentReport();
-
 
 
    }
