@@ -8,7 +8,7 @@ public class ChessManager {
       Player player1 = new Player("Jimmy", "Forest", 1801F);
       Player player2 = new Player("Roger", "Gendron", 1530F);
       Player player3 = new Player("Etienne", "Lavoie", 1337F);
-      Player player4 = new Player("Robert ", "Fortin", 1358F);
+      Player player4 = new Player("Robert", "Fortin", 1358F);
       Player player5 = new Player("Robert", "Blanchard", 1234F);
       Player player6 = new Player("Louis", "Bergeron", 1218F);
 
@@ -61,6 +61,7 @@ public class ChessManager {
 
       tournoi.computeNewRatings();
       tournoi.printTournamentReport();
+      tournoi.printTournamentReportToCsvFile();
 
 
    }
