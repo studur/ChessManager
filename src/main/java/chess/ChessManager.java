@@ -61,8 +61,14 @@ public class ChessManager {
 
       tournoi.computeNewRatings();
       tournoi.printTournamentReport();
-      tournoi.printTournamentReportToCsvFile();
 
+      try {
+         String filename = "result";
+         tournoi.printTournamentReportToCsvFile(filename);
+         Cevtables.convertCsvToXml(filename);
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
 
    }
 }

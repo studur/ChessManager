@@ -20,14 +20,14 @@ public class Cevtables {
    public Cevtables() {
    }
 
-   public static void main(String[] args) throws Exception {
+   public static void convertCsvToXml(String file) throws Exception {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       DocumentBuilder parser = factory.newDocumentBuilder();
       Document doc = parser.newDocument();
       Element table = doc.createElement("table");
       table.setAttribute("class", "tablecev");
       doc.appendChild(table);
-      String csvfile = args[0] + ".csv";
+      String csvfile = file + ".csv";
       String line = "";
       BufferedReader br = new BufferedReader(new FileReader(csvfile));
       int counter = 0;
@@ -66,10 +66,11 @@ public class Cevtables {
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
       transformer.setOutputProperty("indent", "yes");
       DOMSource source = new DOMSource(doc);
-      String nouveau = args[0] + ".xml";
+      String nouveau = file + ".xml";
       FileWriter fw = new FileWriter(nouveau);
       StreamResult result = new StreamResult(fw);
       transformer.transform(source, result);
       fw.close();
    }
+
 }

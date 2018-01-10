@@ -1,5 +1,8 @@
 package chess;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,36 +122,35 @@ public class Tournament {
       }
    }
 
+   public void printTournamentReportToCsvFile(String fileName) throws IOException {
 
-   /*
-CSV format
-Nom;Ancienne cote;Gains;Nulles;Pertes;Nouvelle cote
-Jimmy Forest;1566;3;0;0;1674
- */
-   public void printTournamentReportToCsvFile() {
-      System.out.println("Nom;Ancienne cote;Gains;Nulles;Pertes;Nouvelle cote");
-      for (int i = 0; i < playersStanding.length; i++) {
-         System.out.print(playersStanding[i].fullName + ";");
-         System.out.print(new DecimalFormat("##").format(playersStanding[i].oldRating) + ";");
-         System.out.print(playersStanding[i].wins + ";");
-         System.out.print(playersStanding[i].ties + ";");
-         System.out.print(playersStanding[i].losses + ";");
-         System.out.print(new DecimalFormat("##").format(playersStanding[i].rating));
-         System.out.println();
+      try (BufferedWriter bufferedWriter = new BufferedWriter(
+            new FileWriter("./" + fileName +".csv"))) {
+         bufferedWriter.write("Nom;Ancienne cote;Gains;Nulles;Pertes;Nouvelle cote");
+         bufferedWriter.newLine();
+         for (int i = 0; i < playersStanding.length; i++) {
+            bufferedWriter.write(playersStanding[i].fullName + ";");
+            bufferedWriter.write(new DecimalFormat("##").format(playersStanding[i].oldRating) + ";");
+            bufferedWriter.write(playersStanding[i].wins + ";");
+            bufferedWriter.write(playersStanding[i].ties + ";");
+            bufferedWriter.write(playersStanding[i].losses + ";");
+            bufferedWriter.write(new DecimalFormat("##").format(playersStanding[i].rating));
+            bufferedWriter.newLine();
+         }
       }
    }
 
 
-   public static void insertionsortOnScore(Player[] tab) {
-      int n = tab.length;
-      for (int k = 1; k<n ;k++ ) {
-         Player cle = tab[k];
-         int l = k-1;
-         while ((l >= 0) && (tab[l].score< cle.score)) {
-            tab[l+1] = tab[l];
+   public static void insertionsortOnScore(Player[] players) {
+      int n = players.length;
+      for (int k = 1; k < n; k++) {
+         Player key = players[k];
+         int l = k - 1;
+         while ((l >= 0) && (players[l].score < key.score)) {
+            players[l + 1] = players[l];
             l--;
          }
-         tab[l+1] = cle;
+         players[l + 1] = key;
       }
    }
 
