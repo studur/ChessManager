@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -26,6 +28,15 @@ public class Tournament {
       this.playersStanding = new Player[players.size()];
    }
 
+   public float[][] getResultMatrix() {
+      float[][] copy = new float[resultMatrix.length][resultMatrix[0].length];
+      System.arraycopy(resultMatrix, 0, copy, 0, resultMatrix.length);
+      return copy;
+   }
+
+   public Player[] getPlayersStanding() {
+      return Arrays.copyOf(playersStanding, playersStanding.length);
+   }
 
    public void addResult(Game game) {
       int coordPlayer1 = players.indexOf(game.player1);
