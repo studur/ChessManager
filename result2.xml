@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<table class="tablecev">
+  <thead>
+    <th>Nom</th>
+    <th>Ancienne cote</th>
+    <th>Gains</th>
+    <th>Nulles</th>
+    <th>Pertes</th>
+    <th>Nouvelle cote</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Jimmy Forest</td>
+      <td>1794</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1801</td>
+    </tr>
+    <tr>
+      <td>Robert Fortin</td>
+      <td>1347</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1353</td>
+    </tr>
+    <tr>
+      <td>Denis Menard</td>
+      <td>947</td>
+      <td>2</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>Robert Blanchard</td>
+      <td>1242</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1241</td>
+    </tr>
+    <tr>
+      <td>Pierre Boucher</td>
+      <td>1142</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1136</td>
+    </tr>
+    <tr>
+      <td>Roger Gendron</td>
+      <td>1530</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>1471</td>
+    </tr>
+  </tbody>
+</table>

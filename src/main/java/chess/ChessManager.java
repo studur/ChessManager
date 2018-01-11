@@ -1,17 +1,19 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChessManager {
 
    public static void main(String[] args) {
 
 
-      Player player1 = new Player("Jimmy", "Forest", 1801F);
+      Player player1 = new Player("Jimmy", "Forest", 1794F);
       Player player2 = new Player("Roger", "Gendron", 1530F);
-      Player player3 = new Player("Etienne", "Lavoie", 1337F);
-      Player player4 = new Player("Robert", "Fortin", 1358F);
-      Player player5 = new Player("Robert", "Blanchard", 1234F);
-      Player player6 = new Player("Louis", "Bergeron", 1218F);
-
+      Player player3 = new Player("Robert", "Fortin", 1347F);
+      Player player4 = new Player("Robert", "Blanchard", 1242F);
+      Player player5 = new Player("Pierre", "Boucher", 1142F);
+      Player player6 = new Player("Denis", "Menard", 947F);
 
 /*
       Player player1 = new Player("Jean", "Morissette", 1885F);
@@ -21,33 +23,35 @@ public class ChessManager {
       Player player5 = new Player("Denis", "Menard", 947F);
       Player player6 = new Player("Pierre", "Boucher", 1142F);
 */
-      Tournament tournoi = new Tournament(6);
+      List<Player> players = new ArrayList<>();
 
-      tournoi.addPlayer(player1);
-      tournoi.addPlayer(player2);
-      tournoi.addPlayer(player3);
-      tournoi.addPlayer(player4);
-      tournoi.addPlayer(player5);
-      tournoi.addPlayer(player6);
+      players.add(player1);
+      players.add(player2);
+      players.add(player3);
+      players.add(player4);
+      players.add(player5);
+      players.add(player6);
+
+
+      Tournament tournoi = new Tournament(players);
 
 
       // round 1
       Game game1 = new Game(player1, player4, 1F);
-      Game game2 = new Game(player5, player2, 0F);
-      Game game3 = new Game(player3, player6, 1F);
-
+      Game game2 = new Game(player5, player2, 1F);
+      Game game3 = new Game(player3, player6, 0F);
 
       // round 2
-      Game game4 = new Game(player6, player1, 0F);
-      Game game5 = new Game(player2, player3, 1F);
-      Game game6 = new Game(player4, player5, 0F);
 
+      Game game4 = new Game(player6, player1, 0F);
+      Game game5 = new Game(player2, player3, 0F);
+      Game game6 = new Game(player4, player5, 1F);
 
       //round 3
-      Game game7 = new Game(player1, player2, 1F);
-      Game game8 = new Game(player3, player5, 1F);
-      Game game9 = new Game(player6, player4, 0.5F);
 
+      Game game7 = new Game(player1, player2, 1F);
+      Game game8 = new Game(player3, player4, 1F);
+      Game game9 = new Game(player5, player6, 0F);
 
       tournoi.addResult(game1);
       tournoi.addResult(game2);
@@ -59,11 +63,12 @@ public class ChessManager {
       tournoi.addResult(game8);
       tournoi.addResult(game9);
 
+
       tournoi.computeNewRatings();
       tournoi.printTournamentReport();
 
       try {
-         String filename = "result";
+         String filename = "result2";
          tournoi.printTournamentReportToCsvFile(filename);
          Cevtables.convertCsvToXml(filename);
       } catch (Exception e) {
