@@ -18,6 +18,8 @@ public class Tournament {
 
    private List<Player> players = new ArrayList<>();
 
+   private List<Round> rounds = new ArrayList<>();
+
    private float[][] resultMatrix;
 
    private Player[] playersStanding;
@@ -37,6 +39,14 @@ public class Tournament {
    public Player[] getPlayersStanding() {
       return Arrays.copyOf(playersStanding, playersStanding.length);
    }
+
+   public void addRound(Round round) {
+      rounds.add(round);
+      for (Game game : round.getGames()) {
+         addResult(game);
+      }
+   }
+
 
    public void addResult(Game game) {
       int coordPlayer1 = players.indexOf(game.player1);

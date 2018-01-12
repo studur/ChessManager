@@ -32,7 +32,6 @@ public class ChessManager {
       players.add(player5);
       players.add(player6);
 
-
       Tournament tournoi = new Tournament(players);
 
 
@@ -41,11 +40,25 @@ public class ChessManager {
       Game game2 = new Game(player5, player2, 1F);
       Game game3 = new Game(player3, player6, 0F);
 
+      Round round1 = new Round();
+      round1.addGame(game1);
+      round1.addGame(game2);
+      round1.addGame(game3);
+
+      tournoi.addRound(round1);
+
       // round 2
 
       Game game4 = new Game(player6, player1, 0F);
       Game game5 = new Game(player2, player3, 0F);
       Game game6 = new Game(player4, player5, 1F);
+
+      Round round2 = new Round();
+      round2.addGame(game4);
+      round2.addGame(game5);
+      round2.addGame(game6);
+
+      tournoi.addRound(round2);
 
       //round 3
 
@@ -53,22 +66,18 @@ public class ChessManager {
       Game game8 = new Game(player3, player4, 1F);
       Game game9 = new Game(player5, player6, 0F);
 
-      tournoi.addResult(game1);
-      tournoi.addResult(game2);
-      tournoi.addResult(game3);
-      tournoi.addResult(game4);
-      tournoi.addResult(game5);
-      tournoi.addResult(game6);
-      tournoi.addResult(game7);
-      tournoi.addResult(game8);
-      tournoi.addResult(game9);
+      Round round3 = new Round();
+      round3.addGame(game7);
+      round3.addGame(game8);
+      round3.addGame(game9);
 
+      tournoi.addRound(round3);
 
       tournoi.computeNewRatings();
       tournoi.printTournamentReport();
 
       try {
-         String filename = "result2";
+         String filename = "result";
          tournoi.printTournamentReportToCsvFile(filename);
          Cevtables.convertCsvToXml(filename);
       } catch (Exception e) {

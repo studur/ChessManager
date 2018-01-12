@@ -21,18 +21,22 @@ public class Cevtables {
    }
 
    public static void convertCsvToXml(String file) throws Exception {
+
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       DocumentBuilder parser = factory.newDocumentBuilder();
       Document doc = parser.newDocument();
+
       Element table = doc.createElement("table");
       table.setAttribute("class", "tablecev");
       doc.appendChild(table);
+
       String csvfile = file + ".csv";
       String line = "";
-      BufferedReader br = new BufferedReader(new FileReader(csvfile));
+      BufferedReader bufferedReader = new BufferedReader(new FileReader(csvfile));
+
       int counter = 0;
 
-      for (Element tbody = null; (line = br.readLine()) != null; ++counter) {
+      for (Element tbody = null; (line = bufferedReader.readLine()) != null; ++counter) {
          String[] ligne = line.split(";");
          int i;
          if (counter != 0) {
@@ -59,18 +63,20 @@ public class Cevtables {
          }
       }
 
-      br.close();
-      TransformerFactory tfact = TransformerFactory.newInstance();
-      Transformer transformer = tfact.newTransformer();
+      bufferedReader.close();
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer transformer = transformerFactory.newTransformer();
       transformer.setOutputProperty("encoding", "ISO-8859-1");
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
       transformer.setOutputProperty("indent", "yes");
       DOMSource source = new DOMSource(doc);
+
       String nouveau = file + ".xml";
-      FileWriter fw = new FileWriter(nouveau);
-      StreamResult result = new StreamResult(fw);
+
+      FileWriter fileWriter = new FileWriter(nouveau);
+      StreamResult result = new StreamResult(fileWriter);
       transformer.transform(source, result);
-      fw.close();
+      fileWriter.close();
    }
 
 }
