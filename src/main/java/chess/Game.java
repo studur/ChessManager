@@ -81,8 +81,8 @@ public class Game {
     * This method is used to calculate a rating adjustment (delta) based on the result from a game
     * between two chess players.
     *
-    * @param player1     Player 1 instance.
-    * @param player2     Player 2 instance.
+    * @param player1      Player 1 instance.
+    * @param player2      Player 2 instance.
     * @param actualResult Result : 1F win, 0F loss, 0.5F tie
     * @return The rating variation.
     */
@@ -102,6 +102,5 @@ public class Game {
 
       return delta;
    }
-
 
 }

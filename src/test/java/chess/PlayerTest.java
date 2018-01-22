@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class PlayerTest {
 
-@Ignore //TODO Fix sorting problem
+   @Ignore //TODO Fix sorting problem
    @Test
    public void compareTo() throws Exception {
       Player player1 = new Player("John", "Doe", 1800);
@@ -24,10 +24,9 @@ public class PlayerTest {
 
       roster.sort(Player::compareTo);
 
-      assertTrue(roster.get(0)== player1);
-      assertTrue(roster.get(1)== player2);
-      assertTrue(roster.get(2)== player3);
-
+      assertTrue(roster.get(0) == player1);
+      assertTrue(roster.get(1) == player2);
+      assertTrue(roster.get(2) == player3);
 
    }
 

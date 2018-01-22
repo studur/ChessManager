@@ -46,6 +46,7 @@ public class Tournament {
    /**
     * Method used to add a game result to each player metrics and the computed rating adjustments for the
     * respective players in the resultMatrix of the tournament.
+    *
     * @param game The added game.
     */
    public void addResult(Game game) {
@@ -100,7 +101,7 @@ public class Tournament {
          double delta = newRating - player.oldRating;
          double bonus = 0;
          if (rounds.size() > 3) {
-            bonus = delta - (double)(24 + 2 * (rounds.size() - 4));
+            bonus = delta - (double) (24 + 2 * (rounds.size() - 4));
             if (bonus < 0) {
                bonus = 0;
             }
@@ -120,7 +121,7 @@ public class Tournament {
       insertionsortOnScore(playersStanding);
    }
 
-    public void printTournamentReport() {
+   public void printTournamentReport() {
       System.out.println("*********************");
       System.out.println("* Tournament report *");
       System.out.println("*********************");
@@ -135,7 +136,6 @@ public class Tournament {
    }
 
    /**
-    *
     * @param fileName
     * @throws IOException
     */
@@ -158,7 +158,6 @@ public class Tournament {
    }
 
    /**
-    *
     * @param players
     */
    public static void insertionsortOnScore(Player[] players) {
