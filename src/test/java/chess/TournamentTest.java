@@ -17,42 +17,42 @@ public class TournamentTest {
 
    @Before
    public void setUp() {
-      player1 = new Player("John", "Doe", 1500F);
-      player2 = new Player("Jane", "Doe", 1800F);
+      player1 = new Player("John", "Doe", 1500);
+      player2 = new Player("Jane", "Doe", 1800);
 
       List<Player> players = new ArrayList<>();
       players.add(player1);
       players.add(player2);
       tournament = new Tournament(players);
 
-      game1 = new Game(player1, player2, 0F);
+      game1 = new Game(player1, player2, 0);
       tournament.addResult(game1);
    }
 
    @Test
    public void getResultMatrix() {
-      float[][] result = tournament.getResultMatrix();
-      float[][] expected = new float[][]{{0F, -4.799999F}, {4.799999F, 0F}};
+      double[][] result = tournament.getResultMatrix();
+      double[][] expected = new double[][]{{0, -4.800000000000001}, {4.800000000000001, 0}};
       assertArrayEquals(expected, result);
    }
 
    @Test
    public void addResult() throws Exception {
-      assertTrue(player1.wins == 0F);
-      assertTrue(player1.losses == 1F);
-      assertTrue(player2.wins == 1F);
-      assertTrue(player2.losses == 0F);
-      assertTrue(player1.score == 0F);
-      assertTrue(player2.score == 1F);
+      assertTrue(player1.wins == 0);
+      assertTrue(player1.losses == 1);
+      assertTrue(player2.wins == 1);
+      assertTrue(player2.losses == 0);
+      assertTrue(player1.score == 0);
+      assertTrue(player2.score == 1);
    }
 
    @Test
    public void computeNewRatings() throws Exception {
       tournament.computeNewRatings();
-      assertTrue(player1.oldRating == 1500F);
-      assertTrue(player2.oldRating == 1800F);
-      assertTrue(player1.rating == 1495.2F);
-      assertTrue(player2.rating == 1804.8F);
+      assertTrue(player1.oldRating == 1500);
+      assertTrue(player2.oldRating == 1800);
+      assertTrue(player1.rating == 1495.2);
+      assertTrue(player2.rating == 1804.8);
    }
 
    @Test

@@ -18,18 +18,18 @@ public class Tournament {
 
    private List<Round> rounds = new ArrayList<>();
 
-   private float[][] resultMatrix;
+   private double[][] resultMatrix;
 
    private Player[] playersStanding;
 
    public Tournament(List<Player> players) {
       this.players = players;
-      this.resultMatrix = new float[players.size()][players.size()];
+      this.resultMatrix = new double[players.size()][players.size()];
       this.playersStanding = new Player[players.size()];
    }
 
-   public float[][] getResultMatrix() {
-      float[][] copy = new float[resultMatrix.length][resultMatrix[0].length];
+   public double[][] getResultMatrix() {
+      double[][] copy = new double[resultMatrix.length][resultMatrix[0].length];
       System.arraycopy(resultMatrix, 0, copy, 0, resultMatrix.length);
       return copy;
    }
@@ -51,25 +51,25 @@ public class Tournament {
    public void addResult(Game game) {
       int coordPlayer1 = players.indexOf(game.player1);
       int coordPlayer2 = players.indexOf(game.player2);
-      float result2 = game.result;
+      double result2 = game.result;
 
-      if (game.result == 1F) {
+      if (game.result == 1) {
          result2 = 0;
          game.player1.wins += 1;
          game.player2.losses += 1;
-         game.player1.score += 1F;
+         game.player1.score += 1;
 
-      } else if (game.result == 0F) {
+      } else if (game.result == 0) {
          game.player1.losses += 1;
          game.player2.wins += 1;
-         game.player2.score += 1F;
+         game.player2.score += 1;
          result2 = 1;
 
       } else {
          game.player1.ties += 1;
          game.player2.ties += 1;
-         game.player1.score += 0.5F;
-         game.player2.score += 0.5F;
+         game.player1.score += 0.5;
+         game.player2.score += 0.5;
       }
 
       resultMatrix[coordPlayer1][coordPlayer2] += Game.getDeltaFromGame(game.player1, game.player2, game.result);
@@ -89,7 +89,7 @@ public class Tournament {
       }
 
       for (Player player : players) {
-         float newRating = player.rating;
+         double newRating = player.rating;
          for (int i = 0; i < players.size(); i++) {
             newRating += resultMatrix[players.indexOf(player)][i];
          }
@@ -97,12 +97,12 @@ public class Tournament {
          // Calculate bonus if 4 rounds or more were played
 
          player.oldRating = player.rating;
-         float delta = newRating - player.oldRating;
-         float bonus = 0;
+         double delta = newRating - player.oldRating;
+         double bonus = 0;
          if (rounds.size() > 3) {
-            bonus = delta - (float)(24 + 2 * (rounds.size() - 4));
-            if (bonus < 0F) {
-               bonus = 0F;
+            bonus = delta - (double)(24 + 2 * (rounds.size() - 4));
+            if (bonus < 0) {
+               bonus = 0;
             }
          }
          player.rating = newRating + bonus;

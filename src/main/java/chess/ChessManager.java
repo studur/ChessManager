@@ -8,12 +8,13 @@ public class ChessManager {
    public static void main(String[] args) {
 
 
-      Player player1 = new Player("Jimmy", "Forest", 1794F);
-      Player player2 = new Player("Roger", "Gendron", 1530F);
-      Player player3 = new Player("Robert", "Fortin", 1347F);
-      Player player4 = new Player("Robert", "Blanchard", 1242F);
-      Player player5 = new Player("Pierre", "Boucher", 1142F);
-      Player player6 = new Player("Denis", "Menard", 947F);
+      Player player1 = new Player("Jimmy", "Forest", 1809);
+      Player player2 = new Player("Roger", "Gendron", 1537);
+      Player player3 = new Player("Etienne", "Lavoie", 1351);
+      Player player4 = new Player("Robert", "Fortin", 1329);
+      Player player5 = new Player("Robert", "Blanchard", 1229);
+      Player player6 = new Player("Louis", "Bergeron", 1213);
+
 
 /*
       Player player1 = new Player("Jean", "Morissette", 1885F);
@@ -22,6 +23,8 @@ public class ChessManager {
       Player player8 = new Player("Louis", "Bergeron", 1194F);
       Player player5 = new Player("Denis", "Menard", 947F);
       Player player6 = new Player("Pierre", "Boucher", 1142F);
+      Player player5 = new Player("Pierre", "Boucher", 1142F);
+      Player player6 = new Player("Denis", "Menard", 947F);
 */
       List<Player> players = new ArrayList<>();
 
@@ -36,9 +39,9 @@ public class ChessManager {
 
 
       // round 1
-      Game game1 = new Game(player1, player4, 1F);
-      Game game2 = new Game(player5, player2, 1F);
-      Game game3 = new Game(player3, player6, 0F);
+      Game game1 = new Game(player1, player4, 1);
+      Game game2 = new Game(player2, player5, 1);
+      Game game3 = new Game(player3, player6, 1);
 
       Round round1 = new Round();
       round1.addGame(game1);
@@ -49,9 +52,9 @@ public class ChessManager {
 
       // round 2
 
-      Game game4 = new Game(player6, player1, 0F);
-      Game game5 = new Game(player2, player3, 0F);
-      Game game6 = new Game(player4, player5, 1F);
+      Game game4 = new Game(player1, player3, 1);
+      Game game5 = new Game(player2, player4, 0);
+      Game game6 = new Game(player5, player6, 0);
 
       Round round2 = new Round();
       round2.addGame(game4);
@@ -62,9 +65,9 @@ public class ChessManager {
 
       //round 3
 
-      Game game7 = new Game(player1, player2, 1F);
-      Game game8 = new Game(player3, player4, 1F);
-      Game game9 = new Game(player5, player6, 0F);
+      Game game7 = new Game(player1, player2, 1);
+      Game game8 = new Game(player3, player5, 0);
+      Game game9 = new Game(player4, player6, 1);
 
       Round round3 = new Round();
       round3.addGame(game7);

@@ -4,7 +4,7 @@ package chess;
 /**
  * This class is responsible for representing a chess player.
  */
-public class Player {
+public class Player implements Comparable<Player> {
 
    public String prenom;
 
@@ -12,11 +12,11 @@ public class Player {
 
    public String fullName;
 
-   public float rating;
+   public double rating;
 
-   public float oldRating;
+   public double oldRating;
 
-   public float score = 0;
+   public double score = 0;
 
    public int wins = 0;
 
@@ -33,4 +33,16 @@ public class Player {
       this.oldRating = rating;
    }
 
+   @Override
+   public String toString() {
+      return "Name=" + fullName + ", rating=" + rating;
+   }
+
+   @Override
+   public int compareTo(Player otherPlayer) {
+      if (this.rating > otherPlayer.rating) {
+         return 1;
+      }
+      return 0;
+   }
 }
