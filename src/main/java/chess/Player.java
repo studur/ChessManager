@@ -42,7 +42,10 @@ public class Player implements Comparable<Player> {
    public int compareTo(Player otherPlayer) {
       if (this.rating > otherPlayer.rating) {
          return 1;
+      } else if (this.rating < otherPlayer.rating) {
+         return -1;
       }
       return 0;
    }
+
 }
