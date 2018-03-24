@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class Tournament {
 
+ 
    private List<Player> players = new ArrayList<>();
 
    private List<Round> rounds = new ArrayList<>();
@@ -83,8 +84,14 @@ public class Tournament {
     */
    public void computeNewRatings() {
 
+      // first compute the ratings of unrated players
+
+
+
       for (Round round : rounds) {
          for (Game game : round.getGames()) {
+
+
             addResult(game);
          }
       }

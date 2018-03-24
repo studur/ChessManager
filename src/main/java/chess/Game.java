@@ -11,7 +11,7 @@ public class Game {
    private final static NavigableMap<Integer, Double> map;
 
    static {
-      map = new TreeMap<Integer, Double>();
+      map = new TreeMap<>();
       map.put(0, 0.50);
       map.put(4, 0.51);
       map.put(11, 0.52);
@@ -83,7 +83,7 @@ public class Game {
     *
     * @param player1      Player 1 instance.
     * @param player2      Player 2 instance.
-    * @param actualResult Result : 1F win, 0F loss, 0.5F tie
+    * @param actualResult Result : 1 win, 0 loss, 0.5 tie
     * @return The rating variation.
     */
    public static double getDeltaFromGame(Player player1, Player player2, double actualResult) {

@@ -14,9 +14,13 @@ public class Player implements Comparable<Player> {
 
    public double rating;
 
+   public boolean isRatingPermanent = true;
+
    public double oldRating;
 
    public double score = 0;
+
+   public int unratedGamesPlayed = 0;
 
    public int wins = 0;
 
@@ -25,12 +29,22 @@ public class Player implements Comparable<Player> {
    public int ties = 0;
 
 
-   public Player(String prenom, String nom, float rating) {
+   public Player(String prenom, String nom, double rating) {
       this.nom = nom;
       this.prenom = prenom;
       this.fullName = prenom + " " + nom;
       this.rating = rating;
       this.oldRating = rating;
+   }
+
+   public Player(String prenom, String nom, double rating, int unratedGamesPlayed) {
+      this.nom = nom;
+      this.prenom = prenom;
+      this.fullName = prenom + " " + nom;
+      this.rating = rating;
+      this.oldRating = rating;
+      this.isRatingPermanent = false;
+      this.unratedGamesPlayed = unratedGamesPlayed;
    }
 
    @Override
