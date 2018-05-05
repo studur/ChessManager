@@ -4,6 +4,7 @@ package chess;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -70,13 +71,15 @@ public class Cevtables {
       transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
       transformer.setOutputProperty("indent", "yes");
       DOMSource source = new DOMSource(doc);
+      LocalDate date = LocalDate.now();
 
-      String nouveau = file + ".xml";
+      String nouveau = file + "-" + date + ".xml";
 
       FileWriter fileWriter = new FileWriter(nouveau);
       StreamResult result = new StreamResult(fileWriter);
       transformer.transform(source, result);
       fileWriter.close();
    }
+
 
 }

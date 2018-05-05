@@ -8,7 +8,7 @@ public class Round {
 
    private final List<Game> games;
 
-   public Round() {
+   Round() {
       this.games = new ArrayList<>();
    }
 
@@ -16,7 +16,7 @@ public class Round {
       this.games = games;
    }
 
-   public void addGame(Game game) {
+   void addGame(Game game) {
       games.add(game);
    }
 
@@ -24,7 +24,7 @@ public class Round {
       return games.size();
    }
 
-   public List<Game> getGames() {
+   List<Game> getGames() {
       return Collections.unmodifiableList(games);
    }
 }

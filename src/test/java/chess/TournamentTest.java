@@ -38,21 +38,21 @@ public class TournamentTest {
 
    @Test
    public void addResult() throws Exception {
-      assertTrue(player1.wins == 0);
-      assertTrue(player1.losses == 1);
-      assertTrue(player2.wins == 1);
-      assertTrue(player2.losses == 0);
-      assertTrue(player1.score == 0);
-      assertTrue(player2.score == 1);
+      assertTrue(player1.getWins() == 0);
+      assertTrue(player1.getLosses() == 1);
+      assertTrue(player2.getWins() == 1);
+      assertTrue(player2.getLosses() == 0);
+      assertTrue(player1.getScore() == 0);
+      assertTrue(player2.getScore() == 1);
    }
 
    @Test
    public void computeNewRatings() throws Exception {
       tournament.computeNewRatings();
-      assertTrue(player1.oldRating == 1500);
-      assertTrue(player2.oldRating == 1800);
-      assertTrue(player1.rating == 1495.2);
-      assertTrue(player2.rating == 1804.8);
+      assertTrue(player1.getOldRating() == 1500);
+      assertTrue(player2.getOldRating() == 1800);
+      assertTrue(player1.getRating() == 1495.2);
+      assertTrue(player2.getRating() == 1804.8);
    }
 
    @Test

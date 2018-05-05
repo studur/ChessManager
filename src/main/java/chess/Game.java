@@ -88,7 +88,7 @@ public class Game {
     */
    public static double getDeltaFromGame(Player player1, Player player2, double actualResult) {
 
-      Integer diff = Math.toIntExact(Math.round(player1.rating - player2.rating));
+      Integer diff = Math.toIntExact(Math.round(player1.getRating() - player2.getRating()));
       double expectedResult;
 
       // To do a lookup for some value in 'key'
@@ -98,9 +98,7 @@ public class Game {
          expectedResult = map.floorEntry(diff).getValue();
       }
 
-      double delta = 32 * (actualResult - expectedResult);
-
-      return delta;
+      return 32 * (actualResult - expectedResult);
    }
 
 }

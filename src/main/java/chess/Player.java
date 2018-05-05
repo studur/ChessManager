@@ -6,27 +6,27 @@ package chess;
  */
 public class Player implements Comparable<Player> {
 
-   public String prenom;
+   private String prenom;
 
-   public String nom;
+   private String nom;
 
-   public String fullName;
+   private String fullName;
 
-   public double rating;
+   private double rating;
 
-   public boolean isRatingPermanent = true;
+   private boolean isRatingPermanent = true;
 
-   public double oldRating;
+   private double oldRating;
 
-   public double score = 0;
+   private double score = 0;
 
-   public int unratedGamesPlayed = 0;
+   private int unratedGamesPlayed = 0;
 
-   public int wins = 0;
+   private int wins = 0;
 
-   public int losses = 0;
+   private int losses = 0;
 
-   public int ties = 0;
+   private int ties = 0;
 
 
    public Player(String prenom, String nom, double rating) {
@@ -62,4 +62,91 @@ public class Player implements Comparable<Player> {
       return 0;
    }
 
+   public String getPrenom() {
+      return prenom;
+   }
+
+   public void setPrenom(String prenom) {
+      this.prenom = prenom;
+   }
+
+   public String getNom() {
+      return nom;
+   }
+
+   public void setNom(String nom) {
+      this.nom = nom;
+   }
+
+   public String getFullName() {
+      return fullName;
+   }
+
+   public void setFullName(String fullName) {
+      this.fullName = fullName;
+   }
+
+   public double getRating() {
+      return rating;
+   }
+
+   public void setRating(double rating) {
+      this.rating = rating;
+   }
+
+   public boolean isRatingPermanent() {
+      return isRatingPermanent;
+   }
+
+   public void setRatingPermanent(boolean ratingPermanent) {
+      isRatingPermanent = ratingPermanent;
+   }
+
+   public double getOldRating() {
+      return oldRating;
+   }
+
+   public void setOldRating(double oldRating) {
+      this.oldRating = oldRating;
+   }
+
+   public double getScore() {
+      return score;
+   }
+
+   public void setScore(double score) {
+      this.score = score;
+   }
+
+   public int getUnratedGamesPlayed() {
+      return unratedGamesPlayed;
+   }
+
+   public void setUnratedGamesPlayed(int unratedGamesPlayed) {
+      this.unratedGamesPlayed = unratedGamesPlayed;
+   }
+
+   public int getWins() {
+      return wins;
+   }
+
+   public void setWins(int wins) {
+      this.wins = wins;
+   }
+
+   public int getLosses() {
+      return losses;
+   }
+
+   public void setLosses(int losses) {
+      this.losses = losses;
+   }
+
+   public int getTies() {
+      return ties;
+   }
+
+   public void setTies(int ties) {
+      this.ties = ties;
+   }
 }
