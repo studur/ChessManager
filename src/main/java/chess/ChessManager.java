@@ -26,7 +26,6 @@ public class ChessManager {
       Player player12 = new Player("Sylvain", "Mireault", 1687);
 
 
-
       List<Player> players = new ArrayList<>();
 
       players.add(player1);

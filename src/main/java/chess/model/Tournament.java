@@ -16,7 +16,8 @@ import java.util.stream.IntStream;
  */
 public class Tournament {
 
-public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
+   private static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
+
    private List<Player> players = new ArrayList<>();
 
    private List<Round> rounds = new ArrayList<>();
@@ -25,23 +26,44 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
 
    private Player[] playersStanding;
 
+   /**
+    * Single constructor.
+    *
+    * @param players List of players supplied to initialize the {@link Tournament} instance.
+    */
    public Tournament(List<Player> players) {
       this.players = players;
       this.resultMatrix = new double[players.size()][players.size()];
       this.playersStanding = new Player[players.size()];
    }
 
+   /**
+    * Get the square matrix of the players containing the results. The two dimensions of the matrix is represented
+    * by the same list of players where the coordinate of a cell contains the cumulated result of all the games
+    * played by these two players in a single tournament.
+    *
+    * @return The matrix or the players and the games containing the results.
+    */
    public double[][] getResultMatrix() {
       double[][] copy = new double[resultMatrix.length][resultMatrix[0].length];
       System.arraycopy(resultMatrix, 0, copy, 0, resultMatrix.length);
       return copy;
    }
 
+   /**
+    * Getter which returns a defensive copy of the player standings array.
+    *
+    * @return The player standing array.
+    */
    public Player[] getPlayersStanding() {
       return Arrays.copyOf(playersStanding, playersStanding.length);
    }
 
-
+   /**
+    * Adds a {@link Round} instance to the current {@link Tournament} rounds list.
+    *
+    * @param round The {@link Round} instance to add.
+    */
    public void addRound(Round round) {
       rounds.add(round);
    }
@@ -52,7 +74,7 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
     *
     * @param game The added game.
     */
-    public void addResult(Game game) {
+   public void addResult(Game game) {
       int coordPlayer1 = players.indexOf(game.player1);
       int coordPlayer2 = players.indexOf(game.player2);
       double result2 = game.result;
@@ -84,25 +106,33 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
     * Method used to aggregate all the rating adjustments for each player and compute the final rating after
     * a completed tournament. The bonus is also calculated based on the number of rounds played.
     */
-    public void computeTournamentRatings() {
+   public void computeTournamentRatings() {
 
-      // first compute the ratings of unrated players
-       List<Player> unratedPlayers = getNewPlayers();
-       if (unratedPlayers.size()>0){
-          unratedPlayers.forEach(this::computeRatingForNewPlayer);
-       }
+      // first compute the ratings of unrated players.
+      List<Player> unratedPlayers = getNewPlayers();
+      if (unratedPlayers.size() > 0) {
+         unratedPlayers.forEach(this::computeRatingForNewPlayer);
+      }
 
-       // Then compute ratings for players with temporary rating.
-       List<Player> playersWithTemporaryRating = getPlayersWithTemporaryRating();
-       for (Player player: unratedPlayers){
-          playersWithTemporaryRating.remove(player);
-       }
+      // Then compute ratings for players with temporary rating.
+      List<Player> playersWithTemporaryRating = getPlayersWithTemporaryRating();
+      // But before, remove the unrated players processed in the previous step.
+      for (Player player : unratedPlayers) {
+         playersWithTemporaryRating.remove(player);
+      }
 
-       if (playersWithTemporaryRating.size()>0){
-          playersWithTemporaryRating.forEach(this::computeRatingForPlayerWithTemporaryRating);
-       }
+      if (playersWithTemporaryRating.size() > 0) {
+         playersWithTemporaryRating.forEach(this::computeRatingForPlayerWithTemporaryRating);
+      }
 
-       // Compute rating for all other players.
+      // Add all the game results to the result matrix.
+      for (Round round : rounds) {
+         for (Game game : round.getGames()) {
+            addResult(game);
+         }
+      }
+
+      // Compute rating for all other players.
       for (Player player : players) {
          double newRating = player.getRating();
          for (int i = 0; i < players.size(); i++) {
@@ -110,7 +140,6 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
          }
 
          // Calculate bonus if 4 rounds or more were played
-
          player.setOldRating(player.getRating());
          double delta = newRating - player.getOldRating();
          double bonus = 0;
@@ -130,9 +159,12 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
     */
    private void computePlayerStanding() {
       IntStream.range(0, players.size()).forEach(i -> playersStanding[i] = players.get(i));
-      insertionsortOnScore(playersStanding);
+      insertionSortOnScore(playersStanding);
    }
 
+   /**
+    * Method used to print the Tournament report to the console.
+    */
    public void printTournamentReport() {
       System.out.println("*********************");
       System.out.println("* Tournament report *");
@@ -148,10 +180,12 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
    }
 
    /**
-    * @param fileName
-    * @throws IOException
+    * Method used to print the {@link Tournament} report to a semi-colon separated CSV file.
+    *
+    * @param fileName Name of the CSV file generated.
+    * @throws IOException Thrown if IO problems with file generation.
     */
-    public void printTournamentReportToCsvFile(String fileName) throws IOException {
+   public void printTournamentReportToCsvFile(String fileName) throws IOException {
 
       try (BufferedWriter bufferedWriter = new BufferedWriter(
             new FileWriter("./" + fileName + ".csv"))) {
@@ -170,9 +204,12 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
    }
 
    /**
-    * @param players
+    * Sorts an array of {@link Player} using a insertion sort algorithm based on their score.
+    *
+    * @param players Array of {@link Player}
     */
-   private static void insertionsortOnScore(Player[] players) {
+   private static void insertionSortOnScore(Player[] players) {
+      //TODO Add a step to sort equal score on their tournament performance rating.
       int length = players.length;
       for (int playerNumber = 1; playerNumber < length; playerNumber++) {
          Player key = players[playerNumber];
@@ -185,6 +222,11 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
       }
    }
 
+   /**
+    * Get the list of {@link Player} without a rating.
+    *
+    * @return List of {@link Player}.
+    */
    private List<Player> getNewPlayers() {
       return players.stream()
             .filter(p -> p.getRating() == 0)
@@ -193,24 +235,55 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
 
    private List<Player> getPlayersWithTemporaryRating() {
       return players.stream()
-            .filter(p->p.getRating()>0)
-            .filter(p->p.getUnratedGamesPlayed()>0)
-            .filter(p -> p.getUnratedGamesPlayed()<MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING)
+            .filter(p -> p.getRating() > 0)
+            .filter(p -> p.getUnratedGamesPlayed() > 0)
+            .filter(p -> p.getUnratedGamesPlayed() < MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING)
             .collect(Collectors.toList());
    }
 
+   /**
+    * Calculates the rating of a new player without a rating. This step is usualy executed before all other
+    * rating calculation steps in a tournament.
+    *
+    * @param player {@link Player} for which the rating is computed.
+    */
    public void computeRatingForNewPlayer(Player player) {
 
       int[] playerPerformanceData = computePerformanceRating(player);
       int newRating = playerPerformanceData[0];
       int totalGames = playerPerformanceData[1];
+
+      // Adjust the rating for a new player if the rating is below 1200.
+      newRating = compensateLowRating(newRating);
+
       player.setRating(newRating);
       player.setUnratedGamesPlayed(totalGames);
       player.setRatingPermanent(false);
 
    }
 
-   public int[] computePerformanceRating(Player player){
+   /**
+    * Compensates a rating calculated for a new player if the rating is below 1200. This adjustment
+    * is only applicable for a new rating calculation and not for a temporary rating calculation.
+    *
+    * @param newRating The new player rating value to be compensated if below 1200.
+    * @return The compensated rating value.
+    */
+   public static int compensateLowRating(int newRating) {
+      if (newRating < 1200) {
+         newRating += (int) ((0.5 * (1200 - newRating)));
+      }
+      return newRating;
+   }
+
+   /**
+    * Calculates the performance rating of a {@link Player} but also returns the number of games played
+    * to be used subsequently.
+    *
+    * @param player {@link Player} for which the rating is computed.
+    * @return An array containing the rating value [0] and the number of games played [1].
+    */
+   public int[] computePerformanceRating(Player player) {
       int average = 0;
       int victories = 0;
       int totalGames = 0;
@@ -226,24 +299,31 @@ public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
 
             if (game.player2 == player) {
                average += game.player1.getRating();
-               if (game.result==0) {
-                  victories+=1;
-               } else if (game.result==0.5) {
-                  victories+=game.result;
+               if (game.result == 0) {
+                  victories += 1;
+               } else if (game.result == 0.5) {
+                  victories += game.result;
                }
                totalGames++;
             }
          }
       }
-      average = average/totalGames;
+      average = average / totalGames;
       int losses = totalGames - victories;
 
-      double gamemod = (double)(victories - losses)/(double)totalGames;
-      int modifier = (int)(400.*gamemod);
-      int newRating = average  + modifier;
+      double gamemod = (double) (victories - losses) / (double) totalGames;
+      int modifier = (int) (400. * gamemod);
+      int newRating = average + modifier;
+
       return new int[]{newRating, totalGames};
    }
 
+   /**
+    * Computed the rating for a player without a permanent rating based on the current {@link Tournament}
+    * performance rating and the previous rating value ponderated on the games played.
+    *
+    * @param player The {@link Player} which has a temporary rating value.
+    */
    public void computeRatingForPlayerWithTemporaryRating(Player player) {
 
       int[] playerPerformanceData = computePerformanceRating(player);

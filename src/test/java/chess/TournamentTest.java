@@ -1,7 +1,5 @@
 package chess;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +11,18 @@ import chess.model.Player;
 import chess.model.Round;
 import chess.model.Tournament;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 public class TournamentTest {
 
-    private static Tournament tournament;
-    private static Player player1;
-    private static Player player2;
-    private static Game game1;
+   private static Tournament tournament;
+   private static Player player1;
+   private static Player player2;
+   private static Game game1;
 
-    @Before
-    public void setUp() {
+   @Before
+   public void setUp() {
       player1 = new Player("John", "Doe", 1500);
       player2 = new Player("Jane", "Doe", 1800);
 
@@ -45,34 +46,42 @@ public class TournamentTest {
 
    @Test
    public void addResult() throws Exception {
-      assertTrue(player1.getWins() == 0);
-      assertTrue(player1.getLosses() == 1);
-      assertTrue(player2.getWins() == 1);
-      assertTrue(player2.getLosses() == 0);
-      assertTrue(player1.getScore() == 0);
-      assertTrue(player2.getScore() == 1);
+      assertEquals(0, player1.getWins());
+      assertEquals(1, player1.getLosses());
+      assertEquals(1, player2.getWins());
+      assertEquals(0, player2.getLosses());
+      assertEquals(0, player1.getScore(), 0.0);
+      assertEquals(1, player2.getScore(), 0.0);
    }
 
-//   @Test
-//   public void computeNewRatings() throws Exception {
-//      tournament.computeTournamentRatings();
-//      assertTrue(player1.getOldRating() == 1500);
-//      assertTrue(player2.getOldRating() == 1800);
-//      assertTrue(player1.getRating() == 1495.2);
-//      assertTrue(player2.getRating() == 1804.8);
-//   }
-//
-//   @Test
-//   public void computePlayerStanding() throws Exception {
-//
-//      Player[] expectedBefore = new Player[]{null, null};
-//      Player[] expectedAfter = new Player[]{player2, player1};
-//
-//      assertArrayEquals(expectedBefore, tournament.getPlayersStanding());
-//
-//      tournament.computeTournamentRatings();
-//      assertArrayEquals(expectedAfter, tournament.getPlayersStanding());
-//   }
+   @Test
+   public void testCompensationOfLowRatingForNewPlayer() {
+      assertEquals(1000, Tournament.compensateLowRating(800));
+      assertEquals(1100, Tournament.compensateLowRating(1000));
+      assertEquals(1200, Tournament.compensateLowRating(1200));
+      assertEquals(1300, Tournament.compensateLowRating(1300));
+   }
+
+   @Test
+   public void computeNewRatings() throws Exception {
+      tournament.computeTournamentRatings();
+      assertEquals(1500, player1.getOldRating(), 0.0);
+      assertEquals(1800, player2.getOldRating(), 0.0);
+      assertEquals(1495.2, player1.getRating(), 0.0);
+      assertEquals(1804.8, player2.getRating(), 0.0);
+   }
+
+   @Test
+   public void computePlayerStanding() throws Exception {
+
+      Player[] expectedBefore = new Player[]{null, null};
+      Player[] expectedAfter = new Player[]{player2, player1};
+
+      assertArrayEquals(expectedBefore, tournament.getPlayersStanding());
+
+      tournament.computeTournamentRatings();
+      assertArrayEquals(expectedAfter, tournament.getPlayersStanding());
+   }
 
 
    @Test
@@ -87,10 +96,9 @@ public class TournamentTest {
       Player player7 = new Player("Louis", "Bergeron", 1206);
       Player player8 = new Player("Robert", "Blanchard", 1216);
       Player player9 = new Player("Louis", "Poirier", 0);
-      Player player10 = new Player("Michael", "Regnier", 1502,3);
-      Player player11 = new Player("Alex", "Provencher", 1228,3);
+      Player player10 = new Player("Michael", "Regnier", 1502, 3);
+      Player player11 = new Player("Alex", "Provencher", 1228, 3);
       Player player12 = new Player("Sylvain", "Mireault", 1687);
-
 
 
       List<Player> players = new ArrayList<>();
@@ -172,8 +180,8 @@ public class TournamentTest {
       tournoi.addRound(round3);
       tournoi.computeRatingForNewPlayer(player9);
 
-      assertEquals((int)player9.getRating(),1179);
-      assertEquals(player9.getUnratedGamesPlayed(),3);
+      assertEquals((int) player9.getRating(), 1189);
+      assertEquals(player9.getUnratedGamesPlayed(), 3);
    }
 
 }
