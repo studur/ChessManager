@@ -1,4 +1,4 @@
-package chess;
+package chess.model;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;

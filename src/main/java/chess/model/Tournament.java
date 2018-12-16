@@ -1,4 +1,4 @@
-package chess;
+package chess.model;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -15,7 +16,7 @@ import java.util.stream.IntStream;
  */
 public class Tournament {
 
-
+public static final int MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING = 8;
    private List<Player> players = new ArrayList<>();
 
    private List<Round> rounds = new ArrayList<>();
@@ -24,24 +25,24 @@ public class Tournament {
 
    private Player[] playersStanding;
 
-   Tournament(List<Player> players) {
+   public Tournament(List<Player> players) {
       this.players = players;
       this.resultMatrix = new double[players.size()][players.size()];
       this.playersStanding = new Player[players.size()];
    }
 
-   double[][] getResultMatrix() {
+   public double[][] getResultMatrix() {
       double[][] copy = new double[resultMatrix.length][resultMatrix[0].length];
       System.arraycopy(resultMatrix, 0, copy, 0, resultMatrix.length);
       return copy;
    }
 
-   Player[] getPlayersStanding() {
+   public Player[] getPlayersStanding() {
       return Arrays.copyOf(playersStanding, playersStanding.length);
    }
 
 
-   void addRound(Round round) {
+   public void addRound(Round round) {
       rounds.add(round);
    }
 
@@ -51,7 +52,7 @@ public class Tournament {
     *
     * @param game The added game.
     */
-   void addResult(Game game) {
+    public void addResult(Game game) {
       int coordPlayer1 = players.indexOf(game.player1);
       int coordPlayer2 = players.indexOf(game.player2);
       double result2 = game.result;
@@ -83,21 +84,25 @@ public class Tournament {
     * Method used to aggregate all the rating adjustments for each player and compute the final rating after
     * a completed tournament. The bonus is also calculated based on the number of rounds played.
     */
-   void computeNewRatings() {
+    public void computeTournamentRatings() {
 
       // first compute the ratings of unrated players
+       List<Player> unratedPlayers = getNewPlayers();
+       if (unratedPlayers.size()>0){
+          unratedPlayers.forEach(this::computeRatingForNewPlayer);
+       }
 
+       // Then compute ratings for players with temporary rating.
+       List<Player> playersWithTemporaryRating = getPlayersWithTemporaryRating();
+       for (Player player: unratedPlayers){
+          playersWithTemporaryRating.remove(player);
+       }
 
-      for (Round round : rounds) {
-         for (Game game : round.getGames()) {
-            if (game.player1.getRating() == 0 || game.player2.getRating() == 0) {
+       if (playersWithTemporaryRating.size()>0){
+          playersWithTemporaryRating.forEach(this::computeRatingForPlayerWithTemporaryRating);
+       }
 
-            }
-
-            addResult(game);
-         }
-      }
-
+       // Compute rating for all other players.
       for (Player player : players) {
          double newRating = player.getRating();
          for (int i = 0; i < players.size(); i++) {
@@ -128,7 +133,7 @@ public class Tournament {
       insertionsortOnScore(playersStanding);
    }
 
-   void printTournamentReport() {
+   public void printTournamentReport() {
       System.out.println("*********************");
       System.out.println("* Tournament report *");
       System.out.println("*********************");
@@ -146,7 +151,7 @@ public class Tournament {
     * @param fileName
     * @throws IOException
     */
-   void printTournamentReportToCsvFile(String fileName) throws IOException {
+    public void printTournamentReportToCsvFile(String fileName) throws IOException {
 
       try (BufferedWriter bufferedWriter = new BufferedWriter(
             new FileWriter("./" + fileName + ".csv"))) {
@@ -178,6 +183,81 @@ public class Tournament {
          }
          players[otherPlayerNumber + 1] = key;
       }
+   }
+
+   private List<Player> getNewPlayers() {
+      return players.stream()
+            .filter(p -> p.getRating() == 0)
+            .collect(Collectors.toList());
+   }
+
+   private List<Player> getPlayersWithTemporaryRating() {
+      return players.stream()
+            .filter(p->p.getRating()>0)
+            .filter(p->p.getUnratedGamesPlayed()>0)
+            .filter(p -> p.getUnratedGamesPlayed()<MIN_NUM_GAMES_PLAYED_FOR_PERMANENT_RATING)
+            .collect(Collectors.toList());
+   }
+
+   public void computeRatingForNewPlayer(Player player) {
+
+      int[] playerPerformanceData = computePerformanceRating(player);
+      int newRating = playerPerformanceData[0];
+      int totalGames = playerPerformanceData[1];
+      player.setRating(newRating);
+      player.setUnratedGamesPlayed(totalGames);
+      player.setRatingPermanent(false);
+
+   }
+
+   public int[] computePerformanceRating(Player player){
+      int average = 0;
+      int victories = 0;
+      int totalGames = 0;
+
+
+      for (Round round : rounds) {
+         for (Game game : round.getGames()) {
+            if (game.player1 == player) {
+               average += game.player2.getRating();
+               victories += game.result;
+               totalGames++;
+            }
+
+            if (game.player2 == player) {
+               average += game.player1.getRating();
+               if (game.result==0) {
+                  victories+=1;
+               } else if (game.result==0.5) {
+                  victories+=game.result;
+               }
+               totalGames++;
+            }
+         }
+      }
+      average = average/totalGames;
+      int losses = totalGames - victories;
+
+      double gamemod = (double)(victories - losses)/(double)totalGames;
+      int modifier = (int)(400.*gamemod);
+      int newRating = average  + modifier;
+      return new int[]{newRating, totalGames};
+   }
+
+   public void computeRatingForPlayerWithTemporaryRating(Player player) {
+
+      int[] playerPerformanceData = computePerformanceRating(player);
+      int newRating = playerPerformanceData[0];
+      int totalGames = playerPerformanceData[1];
+
+      // compute new compounded rating
+      int totalGamePlayedEver = totalGames + player.getUnratedGamesPlayed();
+      double newCompoundRating = (newRating * totalGames + player.getUnratedGamesPlayed() * player.getRating()) / totalGamePlayedEver;
+
+      player.setRating(newCompoundRating);
+      player.setUnratedGamesPlayed(totalGamePlayedEver);
+      player.setRatingPermanent(false);
+
    }
 
 }

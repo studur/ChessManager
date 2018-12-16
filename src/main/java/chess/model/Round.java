@@ -1,4 +1,4 @@
-package chess;
+package chess.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,7 +8,7 @@ public class Round {
 
    private final List<Game> games;
 
-   Round() {
+   public Round() {
       this.games = new ArrayList<>();
    }
 
@@ -16,7 +16,7 @@ public class Round {
       this.games = games;
    }
 
-   void addGame(Game game) {
+   public void addGame(Game game) {
       games.add(game);
    }
 
@@ -24,7 +24,7 @@ public class Round {
       return games.size();
    }
 
-   List<Game> getGames() {
+   public List<Game> getGames() {
       return Collections.unmodifiableList(games);
    }
 }

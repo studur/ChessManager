@@ -1,4 +1,4 @@
-package chess;
+package chess.model;
 
 
 /**
@@ -38,11 +38,7 @@ public class Player implements Comparable<Player> {
    }
 
    public Player(String prenom, String nom, double rating, int unratedGamesPlayed) {
-      this.nom = nom;
-      this.prenom = prenom;
-      this.fullName = prenom + " " + nom;
-      this.rating = rating;
-      this.oldRating = rating;
+      this(prenom, nom, rating);
       this.isRatingPermanent = false;
       this.unratedGamesPlayed = unratedGamesPlayed;
    }
