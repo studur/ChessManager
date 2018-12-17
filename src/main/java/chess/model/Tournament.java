@@ -3,6 +3,7 @@ package chess.model;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.management.PlatformLoggingMXBean;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -132,10 +133,18 @@ public class Tournament {
          }
       }
 
-      // Compute rating for all other players.
-      for (Player player : players) {
+      // Generate a list of remaining players to be processed.
+      List<Player> remainingPlayers = new ArrayList<>();
+      for (Player player: players){
+         if (!unratedPlayers.contains(player) && !playersWithTemporaryRating.contains(player)) {
+            remainingPlayers.add(player);
+         }
+      }
+
+      // Compute rating for all remaining players.
+      for (Player player : remainingPlayers) {
          double newRating = player.getRating();
-         for (int i = 0; i < players.size(); i++) {
+         for (int i = 0; i < remainingPlayers.size(); i++) {
             newRating += resultMatrix[players.indexOf(player)][i];
          }
 

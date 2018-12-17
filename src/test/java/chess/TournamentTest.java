@@ -182,6 +182,15 @@ public class TournamentTest {
 
       assertEquals((int) player9.getRating(), 1189);
       assertEquals(player9.getUnratedGamesPlayed(), 3);
+
+      tournoi.computeRatingForPlayerWithTemporaryRating(player10);
+      assertEquals((int) player10.getRating(), 1185);
+      assertEquals(player10.getUnratedGamesPlayed(), 6);
+
+
+      tournoi.computeRatingForPlayerWithTemporaryRating(player11);
+      assertEquals((int) player11.getRating(), 1260);
+      assertEquals(player11.getUnratedGamesPlayed(), 6);
    }
 
 }
