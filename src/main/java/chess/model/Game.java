@@ -1,4 +1,4 @@
-package chess;
+package chess.model;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -11,7 +11,7 @@ public class Game {
    private final static NavigableMap<Integer, Double> map;
 
    static {
-      map = new TreeMap<Integer, Double>();
+      map = new TreeMap<>();
       map.put(0, 0.50);
       map.put(4, 0.51);
       map.put(11, 0.52);
@@ -71,6 +71,13 @@ public class Game {
 
    public Player player2;
 
+   /**
+    * Game constructor.
+    *
+    * @param player1 First {@link Player}
+    * @param player2 Second {@link Player}
+    * @param result  Result : 1 if first player wins, 0 if first player loses, 0.5 in case of a draw.
+    */
    public Game(Player player1, Player player2, double result) {
       this.player1 = player1;
       this.player2 = player2;
@@ -81,14 +88,14 @@ public class Game {
     * This method is used to calculate a rating adjustment (delta) based on the result from a game
     * between two chess players.
     *
-    * @param player1      Player 1 instance.
-    * @param player2      Player 2 instance.
-    * @param actualResult Result : 1F win, 0F loss, 0.5F tie
+    * @param player1      First {@link Player}
+    * @param player2      Second {@link Player}
+    * @param actualResult Result : 1 if first player wins, 0 if first player loses, 0.5 in case of a draw.
     * @return The rating variation.
     */
    public static double getDeltaFromGame(Player player1, Player player2, double actualResult) {
 
-      Integer diff = Math.toIntExact(Math.round(player1.rating - player2.rating));
+      int diff = Math.toIntExact(Math.round(player1.getRating() - player2.getRating()));
       double expectedResult;
 
       // To do a lookup for some value in 'key'
@@ -98,9 +105,7 @@ public class Game {
          expectedResult = map.floorEntry(diff).getValue();
       }
 
-      double delta = 32 * (actualResult - expectedResult);
-
-      return delta;
+      return 32 * (actualResult - expectedResult);
    }
 
 }
